@@ -5,6 +5,7 @@ const csvFile = "IRIS.csv";
 const userInput = [];
 const inputKeys = ["Sepal length", "Sepal width", "Petal length", "Petal width"];
 const k = 10;
+let result = [];
 let trainDataSet, testDataSet, dataSet;
 
 const readline = require("readline").createInterface({
@@ -66,14 +67,18 @@ function trainTestSplit(dataSet) {
   return { trainDataSet, testDataSet };
 }
 
-function measureAccuracy(realClasses, predictedClass) {
-  const predictedAmount = realClasses.find((el) => el.class === predictedClass).entries;
-  const generalAmount = realClasses.reduce((acc, curr) => acc + curr.entries, 0);
-  const accuracy = ((predictedAmount / generalAmount) * 100).toFixed(1);
+function measureAccuracy() {
+  const generalAmount = result.length;
+  const predictedAmount = result.filter((el) => el.realClass === el.predictedClass);
+  const accuracy = ((predictedAmount.length / generalAmount) * 100).toFixed(1);
+  // console.log(
+  //   "Mismatch: ",
+  //   result.filter((el) => el.realClass != el.predictedClass)
+  // );
   return accuracy;
 }
 
-async function knn(k, csvFile, inputData = []) {
+function knn(k, csvFile, testVector, vectorClass, inputData = []) {
   if (inputData.length && trainDataSet.length) {
     const distances = trainDataSet.flatMap((entry) =>
       entry.vectors.map((vector) => ({
@@ -82,37 +87,30 @@ async function knn(k, csvFile, inputData = []) {
       }))
     );
     const sortedDistances = sortDistances(distances);
-    // console.log(sortedDistances);
     const [realClasses, predictedClass] = findPredictedClass(sortedDistances, k);
     console.log(`Based on ${k} nearest neighbours`);
     console.log("User input: ", inputData);
     console.log("Predicted class: ", predictedClass);
-    console.log(`Accuracy: ${measureAccuracy(realClasses, predictedClass)}%`);
     return;
   }
-  await prepareDataSet(csvFile).then((data) => {
-    dataSet = data;
-    ({ trainDataSet, testDataSet } = trainTestSplit(data));
-  });
   let distances = [];
-  testDataSet.forEach((element, i) => {
-    element.vectors.forEach((testVector) => {
-      trainDataSet[i].vectors.forEach((trainVector) => {
-        distances.push({
-          class: element.class,
-          distance: euclideanDistance(testVector, trainVector),
-        });
+  trainDataSet.forEach((trainObject) => {
+    trainObject.vectors.forEach((trainVector) => {
+      distances.push({
+        class: trainObject.class,
+        distance: euclideanDistance(testVector, trainVector),
       });
     });
   });
   //   console.log(distances);
   let sortedDistances = sortDistances(distances);
-  //   console.dir(distances, { depth: 100, maxArrayLength: null });
   const [realClasses, predictedClass] = findPredictedClass(sortedDistances, k);
+  return { params: testVector, realClass: vectorClass, predictedClass };
   console.log(`Based on ${k} nearest neighbours`);
+  console.log("Real class: ", vectorClass);
   console.log("Predicted class: ", predictedClass);
   console.log(`Accuracy: ${measureAccuracy(realClasses, predictedClass)}%`);
-  askQuestion();
+  // askQuestion();
 }
 
 function euclideanDistance(a, b) {
@@ -176,7 +174,6 @@ function findPredictedClass(sortedDistances, k) {
       });
     }
   }
-  console.log(entries);
   return [entries, predict(entries)];
 }
 
@@ -208,9 +205,25 @@ function askQuestion(index = 0) {
     });
   } else {
     // console.log("User Input:", userInput);
-    knn(k, csvFile, userInput);
+    knn(k, csvFile, [], [], userInput);
     readline.close();
   }
 }
 
-knn(k, csvFile);
+async function start(k, csvFileName) {
+  await prepareDataSet(csvFile).then((data) => {
+    dataSet = data;
+    ({ trainDataSet, testDataSet } = trainTestSplit(data));
+  });
+  testDataSet.forEach((element, i) => {
+    element.vectors.forEach((testVector) => {
+      result.push(knn(k, csvFile, testVector, element.class));
+    });
+  });
+  console.log(result);
+  console.log(`Based on ${k} nearest neighbours`);
+  console.log(`Accuracy: ${measureAccuracy()}%`);
+  askQuestion();
+}
+
+start(k, csvFile);
