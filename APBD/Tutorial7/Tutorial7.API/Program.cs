@@ -1,61 +1,75 @@
-using Tutorial7.API.Managers;
 using Tutorial7.Entities;
+using Tutorial7.API.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddSingleton(new DeviceManagerDB(connectionString));
+var deviceManager = new DeviceManagerDB(connectionString);
 
 var app = builder.Build();
 var api = app.MapGroup("/api");
 
-/*if (File.Exists(filePath))
-{
-    deviceManager.LoadDevices(filePath);
-    Console.WriteLine("Devices loaded successfully from input.txt!");
-}
-else
-{
-    Console.WriteLine("Warning: input.txt file not found. Starting with empty device list.");
-}*/
-
-// Define API routes
 api.MapGet("/devices", async () =>
 {
-    var deviceManager = new DeviceManagerDB(connectionString);
     var devices = await deviceManager.GetAllDevicesAsync();
     var result = devices.Select(d => new { d.Id, d.Name }).ToList();
+    Console.WriteLine(result.Count);
     return Results.Ok(result);
 });
 
-/*api.MapGet("/devices/{id}", (string id) =>
+api.MapGet("/devices/{id}", async (string id, DeviceManagerDB deviceManager) =>
 {
-    var device = DeviceManagerDB.GetDeviceById(id);
-    return device is null
-        ? Results.NotFound($"Device with id {id} not found.")
-        : Results.Ok(device);
+    var device = await deviceManager.GetDeviceByIdAsync(id);
+    if (device is null)
+    {
+        return Results.NotFound($"Device with id '{id}' not found.");
+    }
+    return Results.Ok(device);
 });
 
-api.MapPost("/devices", (Device device) =>
+api.MapPost("/devices", async (DeviceCreateRequest request, DeviceManagerDB deviceManager) =>
 {
-    DeviceManagerDB.AddDevice(device);
-    return Results.Created($"/devices/{device.Id}", device);
+    var id = DeviceManagerDB.GenerateRandomId();
+
+    var validationError = DeviceValidator.ValidateNewDevice(request);
+    if (validationError != null)
+    {
+        return Results.BadRequest(validationError);
+    }
+
+    await deviceManager.CreateDeviceAsync(id, request);
+    return Results.Created($"/api/devices/{id}", new { id });
 });
 
-api.MapPut("/devices/{id}", (string id, Device updatedDevice) =>
+api.MapPut("/devices/{id}", async (string id, DeviceUpdateRequest request, DeviceManagerDB deviceManager) =>
 {
-    var success = DeviceManagerDB.UpdateDevice(id, updatedDevice);
-    return success
-        ? Results.Ok($"Device {id} updated successfully.")
-        : Results.NotFound($"Device with id {id} not found.");
+    var device = await deviceManager.GetDeviceByIdAsync(id);
+    if (device is null)
+    {
+        return Results.NotFound($"Device with id '{id}' not found.");
+    }
+
+    var validationError = DeviceValidator.ValidateUpdateDevice(request);
+    if (validationError != null)
+    {
+        return Results.BadRequest(validationError);
+    }
+
+    await deviceManager.UpdateDeviceAsync(id, request);
+    return Results.Ok($"Updated device with id {id}.");
 });
 
-api.MapDelete("/devices/{id}", (string id) =>
+api.MapDelete("/devices/{id}", async (string id, DeviceManagerDB deviceManager) =>
 {
-    var success = DeviceManagerDB.DeleteDevice(id);
-    return success
-        ? Results.Ok($"Device {id} deleted successfully.")
-        : Results.NotFound($"Device with id {id} not found.");
-});*/
+    var device = await deviceManager.GetDeviceByIdAsync(id);
+    if (device is null)
+    {
+        return Results.NotFound($"Device with id '{id}' not found.");
+    }
+
+    await deviceManager.DeleteDeviceAsync(id);
+    return Results.Ok($"Deleted device with id {id}.");
+});
 
 app.Run();

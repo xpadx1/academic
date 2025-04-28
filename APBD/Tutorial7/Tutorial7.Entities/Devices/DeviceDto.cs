@@ -1,11 +1,9 @@
 ﻿namespace Tutorial7.Entities;
 
-public abstract class Device
+public class DeviceDto
 {
     public string Id { get; set; }
     public string Name { get; set; }
-    
     public bool IsEnabled { get; set; }
-
-    public abstract string GetDeviceInfo();
+    public List<string>? ExtraInfo { get; set; }
 }
