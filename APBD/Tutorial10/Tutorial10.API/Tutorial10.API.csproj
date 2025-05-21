@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>Tutorial8.API</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Tutorial10.Entities\Tutorial10.Entities.csproj" />
+      <ProjectReference Include="..\Tutorial10.Infrastructure\Tutorial10.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>
