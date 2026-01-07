@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel = "stylesheet" href = "assets/styles.css">
+</head>
+<body>
+    <div class = "flex gap header">
+        <div class="flex logo p-1">
+            <p class = "p-1">Assigment</p>
+            <h3>B</h3>
+        </div>
+        <nav class = "flex gap navigation">
+            <a href="Assigment_A.html">Assigment A</a>
+            <a href="Assigment_B.html">Assigment B</a>
+        </nav>
+    </div>
+
+    <div class = "content">
+        <div class = "flex center logo">Content</div>
+        <div class = "flex gap" style = "align-items: baseline; justify-content: center;">
+            <form class = "flex-column content-element p-1">
+                <div class="flex-column m-1">
+                    <label style = "color: red" for="fname">Name: *</label>
+                    <input type="text" name="fname" value="Arsenii">
+                </div>
+                <div class="flex-column m-1">
+                    <label style = "color: red" for="lname">Surname: *</label>
+                    <input type="text" name="lname" value="Shchaslyvyi">
+                </div>
+                <div class="flex-column m-1">
+                    <label style = "color: red" for="lpassword">Password: *</label>
+                    <input type="password" name="lpassword" value="Default">
+                </div>
+                <div class = "flex-column m-1">
+                    <label for="select">Choose an option:</label>
+                    <select name="select">
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                        <option value="4">Four</option>
+                    </select>
+                </div>
+                <textarea rows="9" cols="30">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio voluptatum veniam cum nisi ratione earum fugiat aperiam quae tenetur quisquam distinctio provident aut, excepturi assumenda maiores nemo, commodi dolores! Repellendus.
+                </textarea>
+                <div class="m-1">
+                    <input type="radio" name="radio_group" value="1">
+                    <label for="one">1</label>
+                    <input type="radio" name="radio_group" value="2">
+                    <label for="two">2</label>
+                    <input type="radio" name="radio_group" value="3">
+                    <label for="three">3</label>
+                </div>
+
+                <div class="flex buttons" style = "justify-content: end;">
+                    <button style = "color: red">Reset</button>
+                    <input style = "color: green" class = "m-1" type = "submit">
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

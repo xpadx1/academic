@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src = "/main.js" defer></script>
+    <link rel = "stylesheet" href = "/styles.css"></link>
+</head>
+<body>
+    <div class="flex gap header">
+      <div class="flex logo p-1">
+        <p class="p-1">Assigment</p>
+        <h3>A4</h3>
+      </div>
+      <nav class="flex gap navigation">
+        <a href="/assigment_A1">Assigment A1</a>
+        <a href="assigment_B1">Assigment B1</a>
+        <a href="assigment_A2">Assigment A2</a>
+        <a href="/">Assigment A4 ( form )</a>
+      </nav>
+      <div class="profile" id="profile" style="display: none">
+        <img height="30" width="30" src="/images/profile.png">
+        <div id="profile-wrapper">
+            <p>User name</p>
+            <p>Emailmail.com</p>
+        </div>
+      </div>
+    </div>
+    <form id="form">
+        <div class="form-wrapper">
+            <div class="form-element">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" placeholder="Enter name" required>
+                <div class="error-wrapper" id="name-error">
+                    <i class = "error" id="1" style="display: none">Name should be longer than 2 symbols</i>
+                    <i class = "error" id="2" style="display: none">Name can`t contain numbers</i>
+                    <i class = "error" id="3" style="display: none">Name should be shorter than 15 symbols</i>
+                </div>
+            </div>
+            <div class="form-element">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="Enter email" required>
+                <div class="error-wrapper" id="email-error">
+                    <i class = "error" id="1" style="display: none">Email should be longer than 5 symbols</i>
+                    <i class = "error" id="2" style="display: none">Email should be shorter than 30 symbols</i>
+                </div>
+            </div>
+            <div class="form-element">
+                <label for="password">Password</label>
+                <div class="input-wrapper">
+                    <input type="password" name="password" id="password" placeholder="Enter password" style = "width: -webkit-fill-available;" required>
+                    <img class="input-icon" id="icon1" height="20" width="20" src="/images/hide.png">
+                    <img class="input-icon" style="display: none" id="icon2" height="20" width="20" src="/images/show.png">
+                </div> 
+                <div class="error-wrapper" id="password-error">
+                    <i class = "error" id="1" style="display: none">Password should be longer than 8 symbols</i>
+                    <i class = "error" id="2" style="display: none">Password should contain at least one number and one special symbol</i>
+                </div>
+            </div>
+            <div class="form-element row">
+                <label>Is admin</label>
+                <input id="admin" type="checkbox">
+            </div>
+            <div class="form-element">
+                <button type="submit">Log in</button>
+            </div>
+        </div>
+        <p id = "info"></p>
+    </form>
+</body>
+</html>

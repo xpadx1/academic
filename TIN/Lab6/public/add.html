@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/styles.css" />
+    <title>Add</title>
+  </head>
+  <body>
+    <h1>Add New Item</h1>
+
+    <div class="error">{{error}}</div>
+
+    <form method="POST" action="/add">
+      <label
+        >Category:
+        <select name="dict_id">
+          {{options}}
+        </select> </label
+      ><br /><br />
+
+      <label
+        >Title:<br />
+        <input name="title" /> </label
+      ><br /><br />
+
+      <label
+        >Description:<br />
+        <textarea name="description"></textarea></label
+      ><br /><br />
+
+      <label
+        >Quantity:<br />
+        <input type="number" name="quantity" value="0" min="0" /> </label
+      ><br /><br />
+
+      <button type="submit">Add</button>
+    </form>
+  </body>
+</html>

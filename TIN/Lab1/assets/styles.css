@@ -1,0 +1,80 @@
+body {
+    padding: 0 10vw 0 10vw;
+}
+
+a {
+    text-decoration: none;
+    cursor: pointer;
+    &:hover {
+        color: red;
+    }
+}
+
+h3 {
+    font-size: 20px;
+    font-style: italic;
+    text-decoration: underline;
+}
+
+h4, p {
+    font-size: 16px;
+    font-style: italic;
+    text-decoration: underline;
+}
+
+tr, td {
+    padding: 5px;
+    border: 1px solid black;
+}
+
+ul {
+    list-style-type: square;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.center{
+    margin-bottom: 10px;
+}
+
+.gap {
+    gap: 5vw;
+}
+
+.m-1 {
+    margin: 5px;
+}
+
+.logo {
+    height: 20px;
+    border-radius: 5px;
+    background-color: rgb(247, 244, 240);
+    border: 1px solid black;
+}
+
+.p-1 {
+    padding: 10px;
+}
+
+.header {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid black;
+}
+
+.center {
+    justify-content: center;
+}
+
+.content-element {
+    border: 1px solid black;
+    border-radius: 5px;
+}

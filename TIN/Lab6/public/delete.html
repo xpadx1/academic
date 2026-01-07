@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/styles.css" />
+    <title>Delete</title>
+  </head>
+  <body>
+    <h1>Delete Item</h1>
+
+    <p>Are you sure you want to delete <b>{{title}}</b> ({{category}})?</p>
+
+    <form method="POST" action="/delete/{{id}}">
+      <button type="submit">Yes, delete</button>
+    </form>
+
+    <a href="/" class="btn">Cancel</a>
+  </body>
+</html>
