@@ -94,8 +94,8 @@ const submit = async () => {
         <div class="mt-6 rounded-lg bg-muted p-4">
           <p class="mb-2 text-sm font-medium">Demo Accounts:</p>
           <div class="space-y-1 text-xs">
-            <p><strong>Admin:</strong> admin@example.com / admin123</p>
-            <p><strong>User:</strong> john@example.com / user123</p>
+            <p><strong>Admin:</strong> alice@test.com / Qwerty123</p>
+            <p><strong>User:</strong> bob@test.com / Qwerty123</p>
           </div>
         </div>
       </CardContent>
