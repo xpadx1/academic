@@ -65,13 +65,8 @@ onMounted(fetchProjects);
 
     <Card v-if="!projects.length">
       <CardContent class="flex flex-col items-center justify-center py-12">
-        <p class="text-muted-foreground">There are no projects</p>
-        <RouterLink to="/dashboard/create">
-          <Button class="mt-4">
-            <Plus class="mr-2 h-4 w-4" />
-            Create New
-          </Button>
-        </RouterLink>
+        <p class="text-muted-foreground">There are no projects for you now</p>
+        <p class="text-muted-foreground">Wait until admins create some and assign tasks to you!</p>
       </CardContent>
     </Card>
 
