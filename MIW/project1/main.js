@@ -45,45 +45,20 @@ function player2(opponentHistory) {
   if (opponentHistory.length < 2 || Math.random() < 0.1) {
     return shapesArray[Math.floor(Math.random() * 3)];
   }
-  const curr = opponentHistory[opponentHistory.length - 1];
+  const lastMove = opponentHistory[opponentHistory.length - 1];
+  const probs = getProbabilitiesRow(lastMove, matrixP2);
 
-  const probs = getProbabilitiesRow(curr, matrixP2);
+  let predictedMove = "R";
+  let maxProb = -1;
 
-  return chooseBestMove(probs);
-}
-
-// function player2User() {
-//   return Math.floor(Math.random() * 3) >= 2 ? "R" : "S";
-// }
-
-// function player1User() {
-//   return Math.floor(Math.random() * 3) >= 2 ? "R" : "S";
-// }
-
-function chooseBestMove(probs) {
-  function payoff(myMove, opponentMove) {
-    if (myMove === opponentMove) return 0;
-    if (beatenBy[myMove] === opponentMove) return 1;
-    return -1;
-  }
-
-  let bestMove = null;
-  let bestScore = -Infinity;
-
-  for (const myMove of shapesArray) {
-    let score = 0;
-
-    for (const oppMove of shapesArray) {
-      score += payoff(myMove, oppMove) * probs[oppMove];
-    }
-
-    if (score > bestScore) {
-      bestScore = score;
-      bestMove = myMove;
+  for (const shape of shapesArray) {
+    if (probs[shape] > maxProb) {
+      maxProb = probs[shape];
+      predictedMove = shape;
     }
   }
 
-  return bestMove;
+  return beatenBy[predictedMove];
 }
 
 function getProbabilitiesRow(shape, matrix) {
