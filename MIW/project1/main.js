@@ -33,9 +33,9 @@ function player1(opponentHistory) {
   if (opponentHistory.length > 1 || Math.random() < 0.1) {
     const curr = opponentHistory[opponentHistory.length - 1];
 
-    const probs = getProbabilitiesRow(curr, matrixP1);
-    const predicted = Object.keys(probs).reduce((a, b) => (probs[a] > probs[b] ? a : b));
-    return beatenBy[predicted];
+    const rowValues = Object.values(matrixP1[curr]);
+    const rowKeys = Object.keys(matrixP1[curr]);
+    return beatenBy[rowKeys[rowValues.indexOf(Math.max(...rowValues))]];
   }
   return shapesArray[Math.floor(Math.random() * 3)];
 }
