@@ -1,12 +1,11 @@
-using Implementation.Extensions;
+using Implementation.Application.Interfaces;
+using Implementation.Application.Services;
 using Implementation.Infrastructure.Persistence;
-using Implementation.Middleware;
-using Microsoft.OpenApi;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
 
 var allowedOrigins = builder.Configuration
     .GetSection("Cors:AllowedOrigins")
@@ -22,18 +21,16 @@ builder.Services.AddCors(options =>
               .AllowCredentials();
     });
 });
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Title = "Restaurant Management and Ordering API",
-        Version = "v1",
-        Description = "Backend API supporting the Customer Ordering use case: browsing menus, managing a cart, checkout with loyalty discounts, payment processing, and order tracking."
-    });
-});
 
-builder.Services.AddApplicationServices();
-builder.Services.AddInfrastructureServices(builder.Configuration);
+// Application services
+builder.Services.AddScoped<IMenuService, MenuService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+
+// Infrastructure services
+builder.Services.AddDbContext<RestaurantDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
@@ -41,17 +38,6 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<RestaurantDbContext>();
     DbInitializer.Initialize(dbContext);
-}
-
-/*app.UseMiddleware<ExceptionHandlingMiddleware>();*/
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Restaurant API v1");
-    });
 }
 
 app.UseCors("Frontend");

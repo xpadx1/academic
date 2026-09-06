@@ -20,5 +20,5 @@ public record PaymentResult(
 
 public interface IPaymentService
 {
-    Task<PaymentResult> ProcessPaymentAsync(PaymentRequest request, CancellationToken cancellationToken = default);
+    Task<PaymentResult> ProcessPaymentAsync(PaymentRequest request);
 }

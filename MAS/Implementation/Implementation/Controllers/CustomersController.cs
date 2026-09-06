@@ -18,29 +18,23 @@ public class CustomersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<CustomerResponse>> GetCustomer(
-        int customerId,
-        CancellationToken cancellationToken)
+    public async Task<ActionResult<CustomerResponse>> GetCustomer(int customerId)
     {
-        var customer = await _customerService.GetCustomerAsync(customerId, cancellationToken);
+        var customer = await _customerService.GetCustomerAsync(customerId);
         return Ok(customer);
     }
 
     [HttpGet("orders")]
-    public async Task<ActionResult<IReadOnlyCollection<OrderResponse>>> GetCustomerOrders(
-        int customerId,
-        CancellationToken cancellationToken)
+    public async Task<ActionResult<IReadOnlyCollection<OrderResponse>>> GetCustomerOrders(int customerId)
     {
-        var orders = await _orderService.GetCustomerOrdersAsync(customerId, cancellationToken);
+        var orders = await _orderService.GetCustomerOrdersAsync(customerId);
         return Ok(orders);
     }
 
     [HttpPost("orders")]
-    public async Task<ActionResult<OrderResponse>> CreateOrder(
-        int customerId,
-        CancellationToken cancellationToken)
+    public async Task<ActionResult<OrderResponse>> CreateOrder(int customerId)
     {
-        var order = await _orderService.CreateOrderAsync(customerId, cancellationToken);
+        var order = await _orderService.CreateOrderAsync(customerId);
         return CreatedAtAction(
             nameof(GetCustomerOrder),
             new { customerId, orderId = order.Id },
@@ -48,12 +42,9 @@ public class CustomersController : ControllerBase
     }
 
     [HttpGet("orders/{orderId:int}")]
-    public async Task<ActionResult<OrderResponse>> GetCustomerOrder(
-        int customerId,
-        int orderId,
-        CancellationToken cancellationToken)
+    public async Task<ActionResult<OrderResponse>> GetCustomerOrder(int customerId, int orderId)
     {
-        var order = await _orderService.GetOrderAsync(customerId, orderId, cancellationToken);
+        var order = await _orderService.GetOrderAsync(customerId, orderId);
         return Ok(order);
     }
 
@@ -61,10 +52,9 @@ public class CustomersController : ControllerBase
     public async Task<ActionResult<OrderResponse>> AddOrderItem(
         int customerId,
         int orderId,
-        [FromBody] AddOrderItemRequest request,
-        CancellationToken cancellationToken)
+        [FromBody] AddOrderItemRequest request)
     {
-        var order = await _orderService.AddItemAsync(customerId, orderId, request, cancellationToken);
+        var order = await _orderService.AddItemAsync(customerId, orderId, request);
         return Ok(order);
     }
 
@@ -73,11 +63,10 @@ public class CustomersController : ControllerBase
         int customerId,
         int orderId,
         int orderItemId,
-        [FromBody] UpdateOrderItemQuantityRequest request,
-        CancellationToken cancellationToken)
+        [FromBody] UpdateOrderItemQuantityRequest request)
     {
         var order = await _orderService.UpdateItemQuantityAsync(
-            customerId, orderId, orderItemId, request, cancellationToken);
+            customerId, orderId, orderItemId, request);
         return Ok(order);
     }
 
@@ -85,10 +74,9 @@ public class CustomersController : ControllerBase
     public async Task<ActionResult<OrderResponse>> RemoveOrderItem(
         int customerId,
         int orderId,
-        int orderItemId,
-        CancellationToken cancellationToken)
+        int orderItemId)
     {
-        var order = await _orderService.RemoveItemAsync(customerId, orderId, orderItemId, cancellationToken);
+        var order = await _orderService.RemoveItemAsync(customerId, orderId, orderItemId);
         return Ok(order);
     }
 
@@ -96,10 +84,9 @@ public class CustomersController : ControllerBase
     public async Task<ActionResult<OrderResponse>> Checkout(
         int customerId,
         int orderId,
-        [FromBody] CheckoutRequest request,
-        CancellationToken cancellationToken)
+        [FromBody] CheckoutRequest request)
     {
-        var order = await _orderService.CheckoutAsync(customerId, orderId, request, cancellationToken);
+        var order = await _orderService.CheckoutAsync(customerId, orderId, request);
         return Ok(order);
     }
 
@@ -107,20 +94,16 @@ public class CustomersController : ControllerBase
     public async Task<ActionResult<PaymentResponse>> ProcessPayment(
         int customerId,
         int orderId,
-        [FromBody] PaymentRequestDto request,
-        CancellationToken cancellationToken)
+        [FromBody] PaymentRequestDto request)
     {
-        var result = await _orderService.ProcessPaymentAsync(customerId, orderId, request, cancellationToken);
+        var result = await _orderService.ProcessPaymentAsync(customerId, orderId, request);
         return Ok(result);
     }
 
     [HttpGet("orders/{orderId:int}/status")]
-    public async Task<ActionResult<OrderStatusResponse>> GetOrderStatus(
-        int customerId,
-        int orderId,
-        CancellationToken cancellationToken)
+    public async Task<ActionResult<OrderStatusResponse>> GetOrderStatus(int customerId, int orderId)
     {
-        var status = await _orderService.GetOrderStatusAsync(customerId, orderId, cancellationToken);
+        var status = await _orderService.GetOrderStatusAsync(customerId, orderId);
         return Ok(status);
     }
 }

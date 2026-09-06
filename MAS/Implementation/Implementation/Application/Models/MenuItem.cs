@@ -1,5 +1,3 @@
-using Implementation.Domain.Interfaces;
-
 namespace Implementation.Domain.Entities;
 
 public abstract class MenuItem
@@ -38,9 +36,9 @@ public abstract class MenuItem
 
     public IReadOnlyCollection<Ingredient> Ingredients => _ingredients;
 
-    public abstract decimal GetCurrentPrice(IDateTimeProvider dateTimeProvider);
+    public abstract decimal GetCurrentPrice();
 
-    public abstract bool IsCurrentlyAvailable(IDateTimeProvider dateTimeProvider);
+    public abstract bool IsCurrentlyAvailable();
 
     public void AddIngredient(Ingredient ingredient)
     {

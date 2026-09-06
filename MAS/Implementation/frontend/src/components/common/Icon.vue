@@ -1,8 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-  /** SVG path data (24x24 viewBox). */
   path: string
-  /** Pixel size; defaults to 24. */
   size?: number
 }>()
 </script>

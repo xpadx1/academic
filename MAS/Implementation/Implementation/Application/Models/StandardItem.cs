@@ -1,5 +1,3 @@
-using Implementation.Domain.Interfaces;
-
 namespace Implementation.Domain.Entities;
 
 public class StandardItem : MenuItem
@@ -23,7 +21,7 @@ public class StandardItem : MenuItem
 
     public void SetAvailability(bool isAvailable) => IsAvailable = isAvailable;
 
-    public override decimal GetCurrentPrice(IDateTimeProvider dateTimeProvider) => BasePrice;
+    public override decimal GetCurrentPrice() => BasePrice;
 
-    public override bool IsCurrentlyAvailable(IDateTimeProvider dateTimeProvider) => IsAvailable;
+    public override bool IsCurrentlyAvailable() => IsAvailable;
 }

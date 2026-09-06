@@ -21,10 +21,7 @@ const activeIndex = computed(() => steps.findIndex((s) => s.key === props.status
 <template>
   <div class="timeline" aria-label="Order status progress">
     <div class="timeline__track">
-      <div
-        class="timeline__progress"
-        :style="{ width: `${(activeIndex / (steps.length - 1)) * 100}%` }"
-      ></div>
+      <div class="timeline__progress" :style="{ width: `${(activeIndex / (steps.length - 1)) * 100}%` }"></div>
     </div>
     <ol class="timeline__steps">
       <li
@@ -45,82 +42,4 @@ const activeIndex = computed(() => steps.findIndex((s) => s.key === props.status
   </div>
 </template>
 
-<style scoped>
-.timeline {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
-.timeline__track {
-  position: relative;
-  height: 4px;
-  background: var(--color-border);
-  border-radius: var(--radius-pill);
-  margin: 0 var(--space-2);
-}
-
-.timeline__progress {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  background: var(--color-success);
-  border-radius: var(--radius-pill);
-  transition: width 0.3s ease;
-}
-
-.timeline__steps {
-  display: flex;
-  justify-content: space-between;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.timeline__step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-1);
-  flex: 1;
-}
-
-.timeline__dot {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--color-surface);
-  border: 2px solid var(--color-border-strong);
-  color: var(--color-primary-contrast);
-}
-
-.timeline__step--done .timeline__dot {
-  background: var(--color-success);
-  border-color: var(--color-success);
-}
-
-.timeline__step--active .timeline__dot {
-  background: var(--color-primary);
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 4px rgba(217, 84, 43, 0.18);
-}
-
-.timeline__label {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
-  text-align: center;
-}
-
-.timeline__step--active .timeline__label {
-  color: var(--color-text);
-  font-weight: 700;
-}
-
-.timeline__step--done .timeline__label {
-  color: var(--color-success);
-}
-</style>
+<style scoped></style>

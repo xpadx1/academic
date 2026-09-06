@@ -1,5 +1,4 @@
 using Implementation.Domain.Enums;
-using Implementation.Domain.Interfaces;
 
 namespace Implementation.Domain.Entities;
 
@@ -27,9 +26,9 @@ public class Customer : Person
 
     public IReadOnlyCollection<Order> Orders => _orders;
 
-    public Order PlaceOrder(IDateTimeProvider dateTimeProvider)
+    public Order PlaceOrder()
     {
-        var order = new Order(this, dateTimeProvider.UtcNow);
+        var order = new Order(this, DateTime.UtcNow);
         _orders.Add(order);
         return order;
     }

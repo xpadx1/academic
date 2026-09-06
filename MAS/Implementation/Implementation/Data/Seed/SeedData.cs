@@ -1,7 +1,6 @@
 ﻿using Implementation.Domain.Entities;
 using Implementation.Domain.Enums;
 using Implementation.Infrastructure.Persistence;
-using Implementation.Infrastructure.Services;
 
 namespace Implementation.Infrastructure.Seed;
 
@@ -165,11 +164,9 @@ var alice = new Customer(
             minimalSalary: 8500m,
             phoneNumber: "+48123456787");
 
-        var clock = new SystemDateTimeProvider();
-
-        var sampleOrder = alice.PlaceOrder(clock);
-        sampleOrder.AddItem(margherita, 2, margherita.GetCurrentPrice(clock));
-        sampleOrder.AddItem(cheeseburger, 1, cheeseburger.GetCurrentPrice(clock));
+var sampleOrder = alice.PlaceOrder();
+        sampleOrder.AddItem(margherita, 2, margherita.GetCurrentPrice());
+        sampleOrder.AddItem(cheeseburger, 1, cheeseburger.GetCurrentPrice());
         sampleOrder.RecordPayment("Card", "PAY-SAMPLE-001");
         sampleOrder.Accept();
         sampleOrder.ChangeStatus(StatusType.Preparing);

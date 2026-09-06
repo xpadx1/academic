@@ -1,5 +1,4 @@
 ﻿using Implementation.Application.DTOs;
-using Implementation.Application.Exceptions;
 using Implementation.Application.Interfaces;
 using Implementation.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -15,15 +14,12 @@ public class CustomerService : ICustomerService
         _dbContext = dbContext;
     }
 
-public async Task<CustomerResponse> GetCustomerAsync(
-        int customerId,
-        CancellationToken cancellationToken = default)
+    public async Task<CustomerResponse> GetCustomerAsync(int customerId)
     {
         var customer = await _dbContext.Customers
             .AsNoTracking()
             .Include(c => c.Orders)
-            .FirstOrDefaultAsync(c => c.Id == customerId, cancellationToken)
-            ?? throw new NotFoundException($"Customer with id {customerId} was not found.");
+            .FirstOrDefaultAsync(c => c.Id == customerId);
 
         return new CustomerResponse(
             customer.Id,

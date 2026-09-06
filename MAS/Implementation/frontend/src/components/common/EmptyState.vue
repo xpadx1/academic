@@ -18,9 +18,4 @@ defineProps<{
   </div>
 </template>
 
-<style scoped>
-.empty-state__message {
-  font-size: var(--font-size-sm);
-  max-width: 280px;
-}
-</style>
+<style scoped></style>

@@ -1,5 +1,4 @@
 ﻿using Implementation.Domain.Enums;
-using Implementation.Domain.Interfaces;
 
 namespace Implementation.Domain.Entities;
 
@@ -53,9 +52,9 @@ public abstract class Employee : Person
                 : $"{_educationRecordsSerialized};{record.Trim()}";
     }
 
-    public int GetTenureMonth(IDateTimeProvider dateTimeProvider)
+    public int GetTenureMonth()
     {
-        var now = dateTimeProvider.UtcNow;
+        var now = DateTime.UtcNow;
         var months = (now.Year - EmploymentDate.Year) * 12 + now.Month - EmploymentDate.Month;
         return months < 0 ? 0 : months;
     }

@@ -1,5 +1,3 @@
-using Implementation.Domain.Interfaces;
-
 namespace Implementation.Domain.Entities;
 
 public class SeasonalItem : MenuItem
@@ -34,14 +32,14 @@ public class SeasonalItem : MenuItem
 
     public decimal SeasonalPriceModifier { get; private set; }
 
-    public override bool IsCurrentlyAvailable(IDateTimeProvider dateTimeProvider)
+    public override bool IsCurrentlyAvailable()
     {
-        var today = dateTimeProvider.UtcNow.Date;
+        var today = DateTime.UtcNow.Date;
         return today >= SeasonStart.Date && today <= SeasonEnd.Date;
     }
 
-    public override decimal GetCurrentPrice(IDateTimeProvider dateTimeProvider) =>
-        IsCurrentlyAvailable(dateTimeProvider)
+    public override decimal GetCurrentPrice() =>
+        IsCurrentlyAvailable()
             ? decimal.Round(BasePrice * SeasonalPriceModifier, 2)
             : BasePrice;
 }

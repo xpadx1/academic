@@ -1,49 +1,34 @@
-import { onBeforeUnmount, ref } from 'vue'
+import { onBeforeUnmount, ref } from "vue";
 
-/**
- * Simple polling helper. Calls `callback` every `intervalMs`, stopping when
- * the component unmounts or `shouldStop()` returns true. Errors are surfaced
- * via the `error` ref but do not stop polling (the caller decides).
- */
-export function usePolling(
-  callback: () => Promise<void>,
-  intervalMs: number,
-  shouldStop: () => boolean,
-) {
-  const error = ref<string | null>(null)
-  const polling = ref(false)
-  let timer: ReturnType<typeof setInterval> | null = null
+export function usePolling(callback: () => Promise<void>, intervalMs: number, shouldStop: () => boolean) {
+  const polling = ref(false);
+  let timer: ReturnType<typeof setInterval> | null = null;
 
   async function tick(): Promise<void> {
     if (shouldStop()) {
-      stop()
-      return
+      stop();
+      return;
     }
-    try {
-      await callback()
-      error.value = null
-    } catch (err) {
-      error.value = (err as Error).message
-    }
+    await callback();
   }
 
   function start(): void {
     if (timer !== null) {
-      return
+      return;
     }
-    polling.value = true
-    timer = setInterval(tick, intervalMs)
+    polling.value = true;
+    timer = setInterval(tick, intervalMs);
   }
 
   function stop(): void {
     if (timer !== null) {
-      clearInterval(timer)
-      timer = null
+      clearInterval(timer);
+      timer = null;
     }
-    polling.value = false
+    polling.value = false;
   }
 
-  onBeforeUnmount(stop)
+  onBeforeUnmount(stop);
 
-  return { error, polling, start, stop, tick }
+  return { polling, start, stop, tick };
 }

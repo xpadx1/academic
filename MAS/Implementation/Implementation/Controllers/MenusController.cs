@@ -16,26 +16,23 @@ public class MenusController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IReadOnlyCollection<MenuResponse>>> GetMenus(
-        CancellationToken cancellationToken)
+    public async Task<ActionResult<IReadOnlyCollection<MenuResponse>>> GetMenus()
     {
-        var menus = await _menuService.GetMenusAsync(cancellationToken);
+        var menus = await _menuService.GetMenusAsync();
         return Ok(menus);
     }
 
     [HttpGet("{menuId:int}")]
-    public async Task<ActionResult<MenuResponse>> GetMenu(int menuId, CancellationToken cancellationToken)
+    public async Task<ActionResult<MenuResponse>> GetMenu(int menuId)
     {
-        var menu = await _menuService.GetMenuAsync(menuId, cancellationToken);
+        var menu = await _menuService.GetMenuAsync(menuId);
         return Ok(menu);
     }
 
     [HttpGet("{menuId:int}/items")]
-    public async Task<ActionResult<IReadOnlyCollection<MenuItemResponse>>> GetMenuItems(
-        int menuId,
-        CancellationToken cancellationToken)
+    public async Task<ActionResult<IReadOnlyCollection<MenuItemResponse>>> GetMenuItems(int menuId)
     {
-        var items = await _menuService.GetMenuItemsAsync(menuId, cancellationToken);
+        var items = await _menuService.GetMenuItemsAsync(menuId);
         return Ok(items);
     }
 }

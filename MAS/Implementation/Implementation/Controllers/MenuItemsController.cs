@@ -16,19 +16,16 @@ public class MenuItemsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IReadOnlyCollection<MenuItemResponse>>> GetAvailableItems(
-        CancellationToken cancellationToken)
+    public async Task<ActionResult<IReadOnlyCollection<MenuItemResponse>>> GetAvailableItems()
     {
-        var items = await _menuService.GetAllAvailableMenuItemsAsync(cancellationToken);
+        var items = await _menuService.GetAllAvailableMenuItemsAsync();
         return Ok(items);
     }
 
     [HttpGet("{menuItemId:int}")]
-    public async Task<ActionResult<MenuItemDetailsResponse>> GetItemDetails(
-        int menuItemId,
-        CancellationToken cancellationToken)
+    public async Task<ActionResult<MenuItemDetailsResponse>> GetItemDetails(int menuItemId)
     {
-        var item = await _menuService.GetMenuItemDetailsAsync(menuItemId, cancellationToken);
+        var item = await _menuService.GetMenuItemDetailsAsync(menuItemId);
         return Ok(item);
     }
 }

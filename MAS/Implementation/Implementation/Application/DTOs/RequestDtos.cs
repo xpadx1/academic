@@ -9,5 +9,3 @@ public record UpdateOrderItemQuantityRequest(int Quantity);
 public record CheckoutRequest;
 
 public record PaymentRequestDto(PaymentMethodType Method);
-
-public record ChangeOrderStatusRequest(string NewStatus);
